@@ -26,7 +26,6 @@ export default function Hero() {
       });
     },
     onError: (error: any) => {
-      // Handle the contact information response
       if (error?.contactInfo) {
         toast({
           title: "Contact LA-Automotive for Vehicle Info",
@@ -69,31 +68,31 @@ export default function Hero() {
   };
 
   return (
-    <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Expert <span className="text-orange-400">MOT Failure Repairs</span> in Hastings
-            </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Professional MOT failure repairs, engine diagnostics, brake services, and bodywork repairs. Same-day service available at 5 Burgess Road.
-            </p>
+    <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16 min-h-screen flex items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <div>
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                Expert <span className="text-orange-400">MOT Failure Repairs</span> in Hastings
+              </h1>
+              <p className="text-xl mb-8 opacity-90 leading-relaxed">
+                Professional MOT failure repairs, engine diagnostics, brake services, and bodywork repairs. Same-day service available at 5 Burgess Road.
+              </p>
+            </div>
             
-            {/* Registration Plate Lookup */}
-            <div className="bg-white text-gray-900 p-6 rounded-xl shadow-lg">
-              <h3 className="font-semibold mb-4 flex items-center">
-                <i className="fas fa-search text-blue-600 mr-2"></i>
-                Quick Vehicle Lookup
+            <div className="bg-white text-gray-900 p-6 rounded-xl shadow-lg max-w-md">
+              <h3 className="font-semibold mb-4 flex items-center text-lg">
+                🔍 Quick Vehicle Lookup
               </h3>
-              <div className="flex space-x-3">
-                <div className="flex-1">
+              <div className="space-y-3">
+                <div>
                   <Input
                     type="text"
                     placeholder="Enter reg plate (e.g. AB12 CDE)"
                     value={regPlate}
                     onChange={(e) => handleRegPlateChange(e.target.value)}
-                    className={`${regPlateError ? 'border-red-500' : ''}`}
+                    className={`w-full ${regPlateError ? 'border-red-500' : ''}`}
                   />
                   {regPlateError && (
                     <p className="text-red-500 text-sm mt-1">{regPlateError}</p>
@@ -102,30 +101,28 @@ export default function Hero() {
                 <Button 
                   onClick={handleVehicleSearch}
                   disabled={vehicleLookupMutation.isPending}
-                  className="auto-orange hover-auto-orange px-6"
+                  className="w-full auto-orange hover-auto-orange"
                 >
-                  {vehicleLookupMutation.isPending ? (
-                    <i className="fas fa-spinner fa-spin"></i>
-                  ) : (
-                    "Search"
-                  )}
+                  {vehicleLookupMutation.isPending ? "Searching..." : "Search"}
                 </Button>
               </div>
             </div>
           </div>
           
-          <div className="relative">
-            <img 
-              src="https://images.unsplash.com/photo-1632823469322-6cb28446e204?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-              alt="Professional automotive garage with mechanics" 
-              className="rounded-xl shadow-2xl w-full h-auto"
-            />
-            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg text-gray-900">
-              <div className="flex items-center space-x-2">
-                <i className="fas fa-star text-yellow-400"></i>
-                <span className="font-semibold">4.8/5 Rating</span>
+          <div className="relative flex justify-center">
+            <div className="relative max-w-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1632823469322-6cb28446e204?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                alt="Professional automotive garage" 
+                className="rounded-xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg text-gray-900">
+                <div className="flex items-center space-x-2 mb-1">
+                  <span className="text-yellow-400 text-lg">⭐</span>
+                  <span className="font-semibold">4.8/5 Rating</span>
+                </div>
+                <p className="text-sm text-gray-600">500+ Happy Customers</p>
               </div>
-              <p className="text-sm text-gray-600">500+ Happy Customers</p>
             </div>
           </div>
         </div>
