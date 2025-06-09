@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://la-automotive.co.uk/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Allow all search engines to index all content
+# This automotive business wants maximum visibility
+Disallow:
+
+# Contact information for crawlers
+# Contact: LA-Automotive@hotmail.com
