@@ -79,8 +79,8 @@ export default function Contact() {
           
           {/* Interactive Map */}
           <div className="bg-gray-200 rounded-xl h-96 overflow-hidden relative">
-            <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=0.5680%2C50.8500%2C0.5800%2C50.8600&amp;layer=mapnik&amp;marker=50.8555%2C0.5734"
+                       <iframe
+              src="https://maps.google.com/maps?q=5+Burgess+Road,+Hastings+TN35+3AB,+UK&t=&z=17&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
