@@ -20,15 +20,9 @@ export default function Footer() {
             <p className="text-gray-400 mb-4">
               Your trusted automotive partner in Hastings, specializing in MOT failure repairs, engine diagnostics, brake services, and bodywork repairs. Located at 5 Burgess Road.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                        <div className="flex space-x-4">
+              <a href="https://www.facebook.com/people/La-Automotive/61575976954390/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <i className="fab fa-google"></i>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <i className="fab fa-yelp"></i>
               </a>
             </div>
           </div>
