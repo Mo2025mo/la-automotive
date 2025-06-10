@@ -110,19 +110,13 @@ export default function Hero() {
           </div>
           
           <div className="relative flex justify-center">
-            <div className="relative max-w-lg">
+           <div className="max-w-lg">
               <img 
                 src="https://images.unsplash.com/photo-1632823469322-6cb28446e204?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Professional automotive garage" 
+               alt="" 
                 className="rounded-xl shadow-2xl w-full h-auto"
               />
-              <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg text-gray-900">
-                <div className="flex items-center space-x-2 mb-1">
-                  <span className="text-yellow-400 text-lg">⭐</span>
-                  <span className="font-semibold">4.8/5 Rating</span>
-                </div>
-                <p className="text-sm text-gray-600">500+ Happy Customers</p>
-              </div>
+              
             </div>
           </div>
         </div>
