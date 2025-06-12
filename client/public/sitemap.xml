@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://la-automotive.co.uk/</loc>
-    <lastmod>2024-12-08</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://laautomotive.co.uk/</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://la-automotive.co.uk/#services</loc>
-    <lastmod>2024-12-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://laautomotive.co.uk/garage-near-me-hastings.html</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://la-automotive.co.uk/#parts</loc>
-    <lastmod>2024-12-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://la-automotive.co.uk/#mot</loc>
-    <lastmod>2024-12-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://laautomotive.co.uk/hastings-car-repairs.html</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://la-automotive.co.uk/#suppliers</loc>
-    <lastmod>2024-12-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://laautomotive.co.uk/mot-failure-repair-hastings.html</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://la-automotive.co.uk/#contact</loc>
-    <lastmod>2024-12-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://laautomotive.co.uk/bodywork-repairs-hastings.html</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
 </urlset>
