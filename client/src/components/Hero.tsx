@@ -6,7 +6,6 @@ import { useToast } from "@/hooks/use-toast";
 import type { InsertVehicleLookup, VehicleLookup } from "@shared/schema";
 
 export default function Hero() {
-  // Force browser refresh to show updated content
   const [regPlate, setRegPlate] = useState("");
   const [regPlateError, setRegPlateError] = useState("");
   const { toast } = useToast();
