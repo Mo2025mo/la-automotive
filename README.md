@@ -1,4 +1,4 @@
-# LA Automotive - Professional MOT Repairs & Services 
+# LA Automotive - Professional MOT Repairs & Services  
 
 **Location:** 5 Burgess Road, Hastings, UK  
 **Contact:** LA-Automotive@hotmail.com | +44 788 702 4551  
