@@ -84,7 +84,7 @@ export default function Footer() {
               <div className="text-sm text-gray-400 space-y-1">
                 <p>Free contact form system</p>
                 <p>Customer inquiry tracking</p>
-                <p><a href="/admin" className="text-orange-400 hover:text-orange-300">Admin Dashboard →</a></p>
+               <p>Professional service management</p>
               </div>
             </div>
           </div>
