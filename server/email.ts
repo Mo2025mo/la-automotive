@@ -111,17 +111,3 @@ export function createContactFormInquiry(
     message: message
   };
 }
-
-export function createPriceMatchInquiry(
-  customerEmail: string,
-  partName: string,
-  currentPrice: string,
-  competitorPrice: string
-): Omit<ContactInquiry, 'timestamp' | 'status'> {
-  return {
-    customerName: 'Price Match Customer',
-    customerEmail,
-    subject: `Price Match Request - ${partName}`,
-    message: `Customer requesting price match for ${partName}. Our price: £${currentPrice}, Competitor price: £${competitorPrice}. Please review and respond.`
-  };
-}
