@@ -106,14 +106,6 @@ export function getAdminActivities(): AdminActivity[] {
   return sorted.slice(0, 100); // Show last 100 in dashboard
 }
 
-// Get activities for specific user
-export function getUserActivities(username: string): AdminActivity[] {
-  return adminActivityLog
-    .filter(activity => activity.username === username)
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-    .slice(0, 50); // Last 50 activities for user
-}
-
 // Get login statistics
 export function getLoginStats() {
   const activities = adminActivityLog;
@@ -142,15 +134,6 @@ export function getLoginStats() {
   });
 
   return Object.values(userStats);
-}
-
-// Detect location from IP (simplified)
-export function getLocationFromIP(ip: string): string {
-  // In a real application, you'd use a service like ipinfo.io
-  if (ip.startsWith('192.168.') || ip.startsWith('10.') || ip === '127.0.0.1') {
-    return 'Local Network';
-  }
-  return 'External Network';
 }
 
 // Security alert for suspicious activity
