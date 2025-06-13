@@ -117,7 +117,7 @@ Submitted: ${new Date().toLocaleString('en-GB')}`;
     }
   });
 
-  // Vehicle lookup using UK Government MOT History API
+  // Professional vehicle lookup service
   app.post("/api/vehicle-lookup", async (req, res) => {
     try {
       const { registrationPlate } = req.body;
@@ -134,25 +134,24 @@ Submitted: ${new Date().toLocaleString('en-GB')}`;
         ipAddress: req.ip || req.connection.remoteAddress || null
       });
 
-      // Check if we have existing data
+      // Check if we have previously looked up this vehicle
       let vehicle = await storage.getVehicleLookupByPlate(registrationPlate);
       
-      if (!vehicle) {
-        // For now, provide a helpful message directing users to contact LA-Automotive
-        // This can be upgraded later with a paid API service
-        return res.status(404).json({ 
-          error: "Vehicle lookup service",
-          message: "For vehicle information and MOT history, please contact LA-Automotive directly. Call +44 788 702 4551 or email LA-Automotive@hotmail.com with your registration plate and we'll provide all the details you need.",
-          contactInfo: {
-            phone: "+44 788 702 4551",
-            email: "LA-Automotive@hotmail.com",
-            address: "5 Burgess Road, Hastings",
-            hours: "Mon-Fri 9:00 AM - 5:30 PM"
-          }
-        });
+      if (vehicle) {
+        return res.json(vehicle);
       }
-      
-      res.json(vehicle);
+
+      // Direct users to contact LA-Automotive
+      return res.status(404).json({ 
+        error: "Vehicle lookup unavailable",
+        message: "For vehicle information and history checks, please contact LA-Automotive directly.",
+        contactInfo: {
+          phone: "+44 788 702 4551",
+          email: "LA-Automotive@hotmail.com",
+          address: "5 Burgess Road, Hastings",
+          hours: "Mon-Fri 9:00 AM - 5:30 PM"
+        }
+      });
     } catch (error) {
       console.error("Vehicle lookup error:", error);
       res.status(500).json({ 
@@ -329,9 +328,9 @@ Submitted: ${new Date().toLocaleString('en-GB')}`;
 
       // Admin credentials (should match AdminLogin.tsx)
       const ADMIN_USERS = [
-        { username: "owner", password: "YourNewOwnerPassword123!", role: "Owner", fullAccess: true },
-        { username: "manager", password: "YourNewManagerPassword123!", role: "Manager", fullAccess: true },
-        { username: "staff", password: "YourNewStaffPassword123!", role: "Staff", fullAccess: false }
+        { username: "owner", password: "NewOwnerPass2025!", role: "Owner", fullAccess: true },
+        { username: "manager", password: "NewManagerPass2025!", role: "Manager", fullAccess: true },
+        { username: "staff", password: "NewStaffPass2025!", role: "Staff", fullAccess: false }
       ];
 
       const admin = ADMIN_USERS.find(user => 

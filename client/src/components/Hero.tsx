@@ -14,36 +14,40 @@ export default function Hero() {
 
   const vehicleLookupMutation = useMutation({
     mutationFn: async (plate: string) => {
-      const lookupData = {
-        registrationPlate: plate,
-        make: "Unknown",
-        model: "Unknown", 
-        year: new Date().getFullYear().toString(),
-        fuelType: "Unknown",
-        engineSize: "Unknown"
-      };
-
       const response = await fetch("/api/vehicle-lookup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lookupData),
+        body: JSON.stringify({ registrationPlate: plate }),
       });
       
-      if (!response.ok) throw new Error("Failed to lookup vehicle");
-      return response.json();
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw data;
+      }
+      
+      return data;
     },
     onSuccess: (data: any) => {
+      const motStatus = data.motStatus === 'VALID' ? 'Valid MOT' : 
+                       data.motStatus === 'EXPIRED' ? 'MOT Expired' : 
+                       'MOT Unknown';
+      
+      const motExpiry = data.motExpiryDate ? ` (expires ${data.motExpiryDate})` : '';
+      
       toast({
-        title: "Vehicle Found!",
-        description: `${data.make || "Unknown"} ${data.model || "Vehicle"} (${data.year || "Unknown"})`,
+        title: "Vehicle Found",
+        description: `${data.make} ${data.model} (${data.year}) - ${data.fuelType} ${data.engineSize} - ${motStatus}${motExpiry}`,
+        duration: 8000,
       });
+      
       queryClient.invalidateQueries({ queryKey: ["/api/vehicle-lookup"] });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
-        title: "Lookup Failed",
-        description: "Could not find vehicle details. Please check the registration plate.",
-        variant: "destructive",
+        title: "Contact LA-Automotive",
+        description: `For vehicle information call ${error.contactInfo?.phone || '+44 788 702 4551'} or email ${error.contactInfo?.email || 'LA-Automotive@hotmail.com'}`,
+        duration: 6000,
       });
     },
   });

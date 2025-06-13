@@ -8,9 +8,9 @@ interface AdminLoginProps {
 
 // Admin users database - add or remove admins here
 const ADMIN_USERS = [
-  { username: "owner", password: "La20f@1256!", role: "Owner", fullAccess: true },
-  { username: "manager", password: "MLH6025@10", role: "Manager", fullAccess: true },
-  { username: "staff", password: "HLA19@504", role: "Staff", fullAccess: false }
+  { username: "owner", password: "NewOwnerPass2025!", role: "Owner", fullAccess: true },
+  { username: "manager", password: "NewManagerPass2025!", role: "Manager", fullAccess: true },
+  { username: "staff", password: "NewStaffPass2025!", role: "Staff", fullAccess: false }
 ];
 
 export default function AdminLogin({ onLogin }: AdminLoginProps) {

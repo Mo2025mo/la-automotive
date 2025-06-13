@@ -9,15 +9,15 @@ interface PasswordRecoveryProps {
 const SECURITY_QUESTIONS = {
   "owner": {
     question: "What is the business address number?",
-    answer: "17503003" // 5 Burgess Road
+    answer: "5" // 5 Burgess Road
   },
   "manager": {
     question: "What is the business phone number (last 4 digits)?",
-    answer: "17503003" // +44 788 702 4551
+    answer: "4551" // +44 788 702 4551
   },
   "staff": {
     question: "What is the business email domain?",
-    answer: "17503003" // LA-Automotive@hotmail.com
+    answer: "hotmail" // LA-Automotive@hotmail.com
   }
 };
 
@@ -54,9 +54,9 @@ export default function PasswordRecovery({ onBackToLogin }: PasswordRecoveryProp
     if (securityData && securityAnswer.toLowerCase() === securityData.answer.toLowerCase()) {
       // Show the password based on username
       const passwords = {
-        "owner": "LA15203@5",
-        "manager": "F305@357",
-        "staff": "Uv89@873"
+        "owner": "NewOwnerPass2025!",
+        "manager": "NewManagerPass2025!",
+        "staff": "NewStaffPass2025!"
       };
       
       setRecoveredPassword(passwords[username as keyof typeof passwords]);

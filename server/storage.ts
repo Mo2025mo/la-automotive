@@ -108,7 +108,21 @@ export class MemStorage implements IStorage {
   }
 
   async getVehicleLookupByPlate(plate: string): Promise<VehicleLookup | undefined> {
-    return this.vehicleLookups.get(plate);
+    // Try exact match first
+    let vehicle = this.vehicleLookups.get(plate);
+    if (vehicle) return vehicle;
+    
+    // Try normalized format (remove spaces, uppercase)
+    const normalizedPlate = plate.replace(/\s+/g, '').toUpperCase();
+    const entries = Array.from(this.vehicleLookups.entries());
+    for (const [key, value] of entries) {
+      const normalizedKey = key.replace(/\s+/g, '').toUpperCase();
+      if (normalizedKey === normalizedPlate) {
+        return value;
+      }
+    }
+    
+    return undefined;
   }
 
   async createUserSearch(insertSearch: InsertUserSearch): Promise<UserSearch> {
