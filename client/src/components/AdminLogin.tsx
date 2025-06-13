@@ -109,8 +109,6 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
                 outline: 'none',
                 transition: 'border-color 0.2s'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#1D4ED8'}
-              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
             />
           </div>
 
@@ -139,8 +137,6 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
                 outline: 'none',
                 transition: 'border-color 0.2s'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#1D4ED8'}
-              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
             />
           </div>
 
@@ -199,20 +195,6 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
             <strong>Security Notice:</strong><br/>
             This admin area contains sensitive customer data.<br/>
             Access is restricted to authorized personnel only.
-          </p>
-        </div>
-
-        <div style={{
-          marginTop: '1.5rem',
-          textAlign: 'center'
-        }}>
-          <p style={{
-            margin: '0',
-            fontSize: '0.75rem',
-            color: '#9CA3AF'
-          }}>
-            LA Automotive - 5 Burgess Road, Hastings<br/>
-            Secure Admin Portal v1.0
           </p>
         </div>
       </div>
