@@ -54,9 +54,9 @@ export default function PasswordRecovery({ onBackToLogin }: PasswordRecoveryProp
     if (securityData && securityAnswer.toLowerCase() === securityData.answer.toLowerCase()) {
       // Show the password based on username
       const passwords = {
-        "owner": "LA-Auto2024!",
-        "manager": "Manager123!",
-        "staff": "Staff456!"
+        "owner": "LA15203@5",
+        "manager": "F305@357",
+        "staff": "Uv89@873"
       };
       
       setRecoveredPassword(passwords[username as keyof typeof passwords]);
