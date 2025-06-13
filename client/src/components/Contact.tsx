@@ -1,3 +1,5 @@
+import ContactForm from './ContactForm';
+
 export default function Contact() {
   return (
     <section id="contact" className="py-16 bg-white">
@@ -8,6 +10,10 @@ export default function Contact() {
         </div>
         
         <div className="grid lg:grid-cols-2 gap-12">
+          {/* Free Contact Form */}
+          <div>
+            <ContactForm />
+          </div>
           {/* Contact Information */}
           <div className="space-y-8">
             <div className="auto-blue text-white p-8 rounded-xl">
@@ -79,7 +85,7 @@ export default function Contact() {
           
           {/* Interactive Map */}
           <div className="bg-gray-200 rounded-xl h-96 overflow-hidden relative">
-                       <iframe
+            <iframe
               src="https://maps.google.com/maps?q=5+Burgess+Road,+Hastings+TN35+3AB,+UK&t=&z=17&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"

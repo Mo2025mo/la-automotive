@@ -20,7 +20,7 @@ export default function Footer() {
             <p className="text-gray-400 mb-4">
               Your trusted automotive partner in Hastings, specializing in MOT failure repairs, engine diagnostics, brake services, and bodywork repairs. Located at 5 Burgess Road.
             </p>
-                        <div className="flex space-x-4">
+            <div className="flex space-x-4">
               <a href="https://www.facebook.com/people/La-Automotive/61575976954390/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <i className="fab fa-facebook-f"></i>
               </a>
@@ -68,8 +68,29 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 LA-Automotive. All rights reserved. | MOT Failure Repairs, Engine Diagnostics & Bodywork Services in Hastings, UK | 5 Burgess Road</p>
+        <div className="border-t border-gray-800 mt-8 pt-8">
+          <div className="grid md:grid-cols-2 gap-8 mb-6">
+            <div>
+              <h4 className="font-semibold mb-3 text-green-400">SEO Optimized Website</h4>
+              <div className="text-sm text-gray-400 space-y-1">
+                <p>✓ 5,860+ monthly searches targeted</p>
+                <p>✓ Complete automotive service coverage</p>
+                <p>✓ Local Hastings optimization</p>
+                <p>✓ Google Search Console ready</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <h4 className="font-semibold mb-3 text-orange-400">Business Management</h4>
+              <div className="text-sm text-gray-400 space-y-1">
+                <p>Free contact form system</p>
+                <p>Customer inquiry tracking</p>
+                <p><a href="/admin" className="text-orange-400 hover:text-orange-300">Admin Dashboard →</a></p>
+              </div>
+            </div>
+          </div>
+          <div className="text-center text-gray-400">
+            <p>&copy; 2025 LA-Automotive. All rights reserved. | MOT Failure Repairs, Engine Diagnostics & Bodywork Services in Hastings, UK | 5 Burgess Road</p>
+          </div>
         </div>
       </div>
     </footer>

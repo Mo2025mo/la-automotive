@@ -1,15 +1,19 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
 Sitemap: https://laautomotive.co.uk/sitemap.xml
 
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
+# Allow all search engines to crawl
+User-agent: Googlebot
+Allow: /
 
-# Allow all search engines to index all content
-# This automotive business wants maximum visibility
-Disallow:
+User-agent: Bingbot
+Allow: /
 
-# Contact information for crawlers
-# Contact: LA-Automotive@hotmail.com
+User-agent: Slurp
+Allow: /
+
+# Disallow crawling of admin or temporary files
+Disallow: /admin/
+Disallow: /temp/
+Disallow: /*.json$

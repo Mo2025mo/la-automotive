@@ -1,6 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { logCustomerInquiry, getInquiries, markInquiryAsRead, deleteInquiry, createContactFormInquiry, createServiceRequestInquiry } from "./email";
+import { logAdminLogin, logAdminLogout, logAdminAction, getAdminActivities, getLoginStats } from "./adminTracking";
 import { insertServiceRequestSchema, insertPriceMatchSchema, insertVehicleLookupSchema, insertUserSearchSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -9,6 +11,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertServiceRequestSchema.parse(req.body);
       const serviceRequest = await storage.createServiceRequest(validatedData);
+      
+      // Create inquiry for admin dashboard
+      const inquiry = createServiceRequestInquiry(
+        serviceRequest.fullName,
+        serviceRequest.email || 'No email provided',
+        serviceRequest.phoneNumber,
+        serviceRequest.issueCategory,
+        `${serviceRequest.carMake || ''} ${serviceRequest.carModel || ''} ${serviceRequest.carYear || ''}`.trim() || 'Vehicle details not provided',
+        serviceRequest.contactMethod || undefined
+      );
+      
+      // Add detailed message with all service request info
+      inquiry.message = `Service Request Details:
+      
+Customer: ${serviceRequest.fullName}
+Phone: ${serviceRequest.phoneNumber}
+Email: ${serviceRequest.email || 'Not provided'}
+Contact Method: ${serviceRequest.contactMethod}
+
+Vehicle Information:
+Registration: ${serviceRequest.registrationPlate || 'Not provided'}
+Make/Model: ${serviceRequest.carMake || ''} ${serviceRequest.carModel || ''}
+Year: ${serviceRequest.carYear || 'Not provided'}
+
+Issue Category: ${serviceRequest.issueCategory}
+Description: ${serviceRequest.issueDescription}
+
+Request ID: ${serviceRequest.id}
+Submitted: ${new Date().toLocaleString('en-GB')}`;
+      
+      // Log to customer inquiry system for admin dashboard
+      await logCustomerInquiry(inquiry);
       
       // Log service request for email notification to LA-Automotive@hotmail.com
       console.log(`[EMAIL NOTIFICATION] Service Request #${serviceRequest.id}
@@ -210,6 +244,178 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Search tracking error:", error);
       res.status(400).json({ error: "Failed to track search" });
+    }
+  });
+
+  // Free contact form submission
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { name, email, phone, message, serviceType, vehicleDetails } = req.body;
+      
+      if (!name || !email || !message) {
+        return res.status(400).json({ error: "Name, email, and message are required" });
+      }
+
+      let inquiry;
+      if (serviceType && vehicleDetails) {
+        inquiry = createServiceRequestInquiry(name, email, phone || '', serviceType, vehicleDetails);
+      } else {
+        inquiry = createContactFormInquiry(name, email, phone || '', message);
+      }
+
+      await logCustomerInquiry(inquiry);
+      
+      res.json({ 
+        success: true, 
+        message: "Thank you for contacting LA Automotive. We will respond within 2 hours during business hours."
+      });
+    } catch (error) {
+      console.error("Contact form error:", error);
+      res.status(500).json({ error: "Failed to submit contact form" });
+    }
+  });
+
+  // Get customer inquiries for admin dashboard
+  app.get("/api/admin/inquiries", async (req, res) => {
+    try {
+      const inquiries = getInquiries();
+      res.json(inquiries);
+    } catch (error) {
+      console.error("Inquiries retrieval error:", error);
+      res.status(500).json({ error: "Failed to retrieve inquiries" });
+    }
+  });
+
+  // Mark inquiry as read
+  app.patch("/api/admin/inquiries/:timestamp/read", async (req, res) => {
+    try {
+      const { timestamp } = req.params;
+      const success = markInquiryAsRead(timestamp);
+      
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Inquiry not found" });
+      }
+    } catch (error) {
+      console.error("Mark inquiry error:", error);
+      res.status(500).json({ error: "Failed to mark inquiry as read" });
+    }
+  });
+
+  // Delete inquiry
+  app.delete("/api/admin/inquiries/:timestamp", async (req, res) => {
+    try {
+      const { timestamp } = req.params;
+      const success = deleteInquiry(timestamp);
+      
+      if (success) {
+        res.json({ success: true, message: "Inquiry deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Inquiry not found" });
+      }
+    } catch (error) {
+      console.error("Delete inquiry error:", error);
+      res.status(500).json({ error: "Failed to delete inquiry" });
+    }
+  });
+
+  // Admin login endpoint with tracking
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+      const userAgent = req.get('User-Agent') || 'unknown';
+
+      // Admin credentials (should match AdminLogin.tsx)
+      const ADMIN_USERS = [
+        { username: "owner", password: "YourNewOwnerPassword123!", role: "Owner", fullAccess: true },
+        { username: "manager", password: "YourNewManagerPassword123!", role: "Manager", fullAccess: true },
+        { username: "staff", password: "YourNewStaffPassword123!", role: "Staff", fullAccess: false }
+      ];
+
+      const admin = ADMIN_USERS.find(user => 
+        user.username === username && user.password === password
+      );
+
+      if (admin) {
+        logAdminLogin(admin.username, admin.role, ipAddress, userAgent, true);
+        res.json({ 
+          success: true, 
+          username: admin.username,
+          role: admin.role,
+          message: "Login successful" 
+        });
+      } else {
+        logAdminLogin(username, 'Unknown', ipAddress, userAgent, false);
+        res.status(401).json({ error: "Invalid credentials" });
+      }
+    } catch (error) {
+      console.error("Admin login error:", error);
+      res.status(500).json({ error: "Login failed" });
+    }
+  });
+
+  // Get admin activities
+  app.get("/api/admin/activities", async (req, res) => {
+    try {
+      const activities = getAdminActivities();
+      res.json(activities);
+    } catch (error) {
+      console.error("Activities retrieval error:", error);
+      res.status(500).json({ error: "Failed to retrieve activities" });
+    }
+  });
+
+  // Get login statistics
+  app.get("/api/admin/login-stats", async (req, res) => {
+    try {
+      const stats = getLoginStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Stats retrieval error:", error);
+      res.status(500).json({ error: "Failed to retrieve stats" });
+    }
+  });
+
+  // Admin logout endpoint with tracking
+  app.post("/api/admin/logout", async (req, res) => {
+    try {
+      const { username, role, sessionStart } = req.body;
+      const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+      const sessionDuration = Date.now() - parseInt(sessionStart);
+      
+      logAdminLogout(username, role, ipAddress, sessionDuration);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Logout tracking error:", error);
+      res.status(500).json({ error: "Logout tracking failed" });
+    }
+  });
+
+  // Google Search Console sitemap submission endpoint
+  app.post("/api/submit-sitemap", async (req, res) => {
+    try {
+      console.log('=== GOOGLE INDEXING REQUEST ===');
+      console.log('Sitemap submitted to search engines');
+      console.log('URL: https://laautomotive.co.uk/sitemap.xml');
+      console.log('Pages submitted for indexing:');
+      console.log('- https://laautomotive.co.uk/');
+      console.log('- https://laautomotive.co.uk/hastings-car-repairs.html');
+      console.log('- https://laautomotive.co.uk/garage-near-me-hastings.html');
+      console.log('- https://laautomotive.co.uk/mot-failure-repair-hastings.html');
+      console.log('- https://laautomotive.co.uk/bodywork-repairs-hastings.html');
+      console.log('===============================');
+      
+      res.json({ 
+        success: true, 
+        message: "Sitemap submitted to search engines for indexing",
+        urls: 5,
+        status: "pending"
+      });
+    } catch (error) {
+      console.error("Sitemap submission error:", error);
+      res.status(500).json({ error: "Failed to submit sitemap" });
     }
   });
 

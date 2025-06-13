@@ -26,19 +26,21 @@ export default function Services() {
     {
       icon: "fas fa-tools",
       title: "MOT Failure Repair",
-      description: "Expert repair services for MOT failures with quick turnaround and competitive pricing.",
+      description: "Fix my car MOT failures fast - Expert repair services with quick turnaround and competitive pricing.",
       color: "auto-orange",
       hoverColor: "hover:text-orange-800",
       details: {
-        overview: "Specialist MOT failure repair services at 5 Burgess Road, Hastings. We repair all common MOT failures with same-day service available.",
+        overview: "Specialist MOT failure repair services at 5 Burgess Road, Hastings. We repair all common MOT failures with same-day service available. Local garage near you in East Sussex.",
         services: [
           "Brake system repairs and replacements",
-          "Suspension component replacement",
+          "Suspension component replacement", 
           "Exhaust system repairs",
           "Light and electrical fault repairs",
-          "Tyre fitting and wheel alignment"
+          "Tyre fitting and wheel alignment",
+          "Clutch repairs and replacements",
+          "Battery replacement and charging system"
         ],
-        pricing: "Brake pads from £55, other repairs - quote on assessment",
+        pricing: "Brake pads from £55, clutch repairs from £300, other repairs - quote on assessment", 
         timeframe: "Same day to 2 working days"
       }
     },

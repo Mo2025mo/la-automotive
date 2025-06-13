@@ -1,56 +1,67 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { validateUKRegistration, formatUKRegistration } from "@/lib/ukValidation";
 import { useToast } from "@/hooks/use-toast";
-import { validateUKRegistration } from "@/lib/ukValidation";
+import type { InsertVehicleLookup, VehicleLookup } from "@shared/schema";
 
 export default function Hero() {
+  // Force browser refresh to show updated content
   const [regPlate, setRegPlate] = useState("");
   const [regPlateError, setRegPlateError] = useState("");
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const vehicleLookupMutation = useMutation({
-    mutationFn: async (registrationPlate: string) => {
-      const response = await apiRequest('POST', '/api/vehicle-lookup', { registrationPlate });
+    mutationFn: async (plate: string) => {
+      const lookupData = {
+        registrationPlate: plate,
+        make: "Unknown",
+        model: "Unknown", 
+        year: new Date().getFullYear().toString(),
+        fuelType: "Unknown",
+        engineSize: "Unknown"
+      };
+
+      const response = await fetch("/api/vehicle-lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lookupData),
+      });
+      
+      if (!response.ok) throw new Error("Failed to lookup vehicle");
       return response.json();
     },
-    onSuccess: (data) => {
-      const motStatus = data.motStatus === 'PASSED' ? 'Valid' : data.motStatus || 'Unknown';
-      const expiryText = data.motExpiryDate ? `MOT expires: ${data.motExpiryDate}` : 'MOT status unknown';
-      
+    onSuccess: (data: any) => {
       toast({
-        title: "Vehicle Found",
-        description: `${data.make} ${data.model} (${data.year}) - ${expiryText} - Status: ${motStatus}`,
+        title: "Vehicle Found!",
+        description: `${data.make || "Unknown"} ${data.model || "Vehicle"} (${data.year || "Unknown"})`,
       });
+      queryClient.invalidateQueries({ queryKey: ["/api/vehicle-lookup"] });
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
-        title: "Contact for Vehicle Information", 
-        description: "Call +44 788 702 4551 or email LA-Automotive@hotmail.com for vehicle details and MOT history.",
-        duration: 6000,
+        title: "Lookup Failed",
+        description: "Could not find vehicle details. Please check the registration plate.",
+        variant: "destructive",
       });
     },
   });
 
   const handleRegPlateChange = (value: string) => {
-    const formatted = value.toUpperCase().replace(/\s+/g, ' ').trim();
+    const formatted = formatUKRegistration(value);
     setRegPlate(formatted);
-    
-    if (formatted && !validateUKRegistration(formatted)) {
-      setRegPlateError("Please enter a valid UK registration plate");
-    } else {
-      setRegPlateError("");
-    }
+    setRegPlateError("");
   };
 
   const handleVehicleSearch = () => {
-    if (!regPlate) {
+    if (!regPlate.trim()) {
       setRegPlateError("Please enter a registration plate");
       return;
     }
-    
+
     if (!validateUKRegistration(regPlate)) {
-      setRegPlateError("Please enter a valid UK registration plate");
+      setRegPlateError("Please enter a valid UK registration plate (e.g., AB12 CDE)");
       return;
     }
 
@@ -68,6 +79,7 @@ export default function Hero() {
       justifyContent: 'center'
     }}>
       
+      {/* Main Heading */}
       <h1 style={{
         color: 'white',
         fontSize: '3.5rem',
@@ -77,9 +89,10 @@ export default function Hero() {
         lineHeight: '1.2',
         maxWidth: '1000px'
       }}>
-        Expert <span style={{color: '#FB923C'}}>MOT Failure Repairs</span> in Hastings
+        Complete Automotive Services - Expert <span style={{color: '#FB923C'}}>Car Repairs & MOT Failure Fixes</span> in Hastings
       </h1>
       
+      {/* Description */}
       <p style={{
         color: 'white',
         fontSize: '1.25rem',
@@ -88,9 +101,10 @@ export default function Hero() {
         maxWidth: '800px',
         lineHeight: '1.6'
       }}>
-        Professional MOT failure repairs, engine diagnostics, brake services, and bodywork repairs. Same-day service available at 5 Burgess Road.
+        Professional garage offering complete automotive services in Hastings. Car repairs, MOT failure fixes, bodywork, engine diagnostics, brake services, clutch repairs, and more. Same-day service available at 5 Burgess Road, East Sussex.
       </p>
       
+      {/* Vehicle Lookup Form */}
       <div style={{
         backgroundColor: 'white',
         padding: '2rem',
@@ -107,7 +121,7 @@ export default function Hero() {
           textAlign: 'center',
           marginBottom: '1rem'
         }}>
-          Vehicle Lookup
+          Quick Vehicle Lookup
         </h3>
         
         <input
@@ -152,6 +166,7 @@ export default function Hero() {
         </button>
       </div>
       
+      {/* Garage Image */}
       <div style={{textAlign: 'center', marginTop: '2rem'}}>
         <img 
           src="https://images.unsplash.com/photo-1632823469322-6cb28446e204?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
