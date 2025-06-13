@@ -1,4 +1,4 @@
-imimport { useState } from "react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 interface PasswordRecoveryProps {
