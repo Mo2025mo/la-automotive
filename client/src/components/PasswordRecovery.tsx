@@ -9,15 +9,15 @@ interface PasswordRecoveryProps {
 const SECURITY_QUESTIONS = {
   "owner": {
     question: "What is the business address number?",
-    answer: "5" // 5 Burgess Road
+    answer: "17503003" // 5 Burgess Road
   },
   "manager": {
     question: "What is the business phone number (last 4 digits)?",
-    answer: "4551" // +44 788 702 4551
+    answer: "17503003" // +44 788 702 4551
   },
   "staff": {
     question: "What is the business email domain?",
-    answer: "hotmail" // LA-Automotive@hotmail.com
+    answer: "17503003" // LA-Automotive@hotmail.com
   }
 };
 
