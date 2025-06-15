@@ -21,14 +21,14 @@ export default function Header() {
             </div>
           </div>
           
-          <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex space-x-8">
   <a href="#services" className="text-gray-700 hover:text-blue-600 font-medium">Services</a>
   <a href="#parts" className="text-gray-700 hover:text-blue-600 font-medium">Parts</a>
   <a href="#mot" className="text-gray-700 hover:text-blue-600 font-medium">MOT Repairs</a>
-  <a href="/preview-all-pages" className="text-blue-600 hover:text-blue-700 font-medium bg-blue-50 px-2 py-1 rounded">All Pages</a>
   <a href="#suppliers" className="text-gray-700 hover:text-blue-600 font-medium">Suppliers</a>
   <a href="#contact" className="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
   <a href="/admin" className="text-orange-600 hover:text-orange-700 font-medium">Admin</a>
+</nav>
 </nav>
           <div className="flex items-center space-x-4">
             <div className="text-right hidden sm:block">
