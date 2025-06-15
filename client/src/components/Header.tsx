@@ -21,15 +21,15 @@ export default function Header() {
             </div>
           </div>
           
-        <nav className="hidden md:flex space-x-8">
-  <a href="#services" className="text-gray-700 hover:text-blue-600 font-medium">Services</a>
-  <a href="#parts" className="text-gray-700 hover:text-blue-600 font-medium">Parts</a>
-  <a href="#mot" className="text-gray-700 hover:text-blue-600 font-medium">MOT Repairs</a>
-  <a href="#suppliers" className="text-gray-700 hover:text-blue-600 font-medium">Suppliers</a>
-  <a href="#contact" className="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
-  <a href="/admin" className="text-orange-600 hover:text-orange-700 font-medium">Admin</a>
-</nav>
-</nav>
+          <nav className="hidden md:flex space-x-8">
+            <a href="#services" className="text-gray-700 hover:text-blue-600 font-medium">Services</a>
+            <a href="#parts" className="text-gray-700 hover:text-blue-600 font-medium">Parts</a>
+            <a href="#mot" className="text-gray-700 hover:text-blue-600 font-medium">MOT Repairs</a>
+            <a href="#suppliers" className="text-gray-700 hover:text-blue-600 font-medium">Suppliers</a>
+            <a href="#contact" className="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+            <a href="/admin" className="text-orange-600 hover:text-orange-700 font-medium">Admin</a>
+          </nav>
+          
           <div className="flex items-center space-x-4">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-gray-900">Call Now</p>
