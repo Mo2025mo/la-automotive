@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import AdminInquiries from '../components/AdminInquiries';
-import GoogleIndexing from '../components/GoogleIndexing';
+
 import AdminLogin from '../components/AdminLogin';
 import AdminActivityLog from '../components/AdminActivityLog';
 
@@ -109,7 +109,6 @@ export default function AdminPage() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(600px, 1fr))'
         }}>
           <AdminInquiries />
-          <GoogleIndexing />
         </div>
 
         {/* Activity Tracking Section - Only for Owner */}
@@ -146,15 +145,15 @@ export default function AdminPage() {
               </p>
             </div>
             <div>
-              <h4 style={{ color: '#1D4ED8', marginBottom: '0.5rem' }}>Google Indexing</h4>
+              <h4 style={{ color: '#1D4ED8', marginBottom: '0.5rem' }}>Service Requests</h4>
               <p style={{ fontSize: '0.875rem', color: '#6B7280' }}>
-                Submit your SEO landing pages to Google for faster search visibility.
+                Manage MOT failure repairs, price comparisons, and service bookings.
               </p>
             </div>
             <div>
-              <h4 style={{ color: '#1D4ED8', marginBottom: '0.5rem' }}>SEO Analytics</h4>
+              <h4 style={{ color: '#1D4ED8', marginBottom: '0.5rem' }}>Activity Tracking</h4>
               <p style={{ fontSize: '0.875rem', color: '#6B7280' }}>
-                Monitor your 5,860+ monthly search targets and website performance.
+                Monitor admin login activities and customer inquiry patterns.
               </p>
             </div>
           </div>
