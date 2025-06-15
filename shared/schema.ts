@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -7,13 +7,13 @@ export const serviceRequests = pgTable("service_requests", {
   fullName: text("full_name").notNull(),
   phoneNumber: text("phone_number").notNull(),
   email: text("email").notNull(),
-  registrationPlate: text("registration_plate"),
-  carMake: text("car_make"),
-  carModel: text("car_model"),
-  carYear: text("car_year"),
-  issueCategory: text("issue_category").notNull(),
+  registrationPlate: text("registration_plate").notNull(),
+  carMake: text("car_make").notNull(),
+  carModel: text("car_model").notNull(),
+  carYear: text("car_year").notNull(),
   issueDescription: text("issue_description").notNull(),
-  contactMethod: text("contact_method"),
+  issueCategory: text("issue_category").notNull(),
+  contactMethod: text("contact_method").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -42,7 +42,7 @@ export const vehicleLookups = pgTable("vehicle_lookups", {
 
 export const userSearches = pgTable("user_searches", {
   id: serial("id").primaryKey(),
-  searchType: text("search_type").notNull(), // 'vehicle_lookup', 'parts_search', 'price_comparison'
+  searchType: text("search_type").notNull(),
   searchQuery: text("search_query").notNull(),
   userAgent: text("user_agent"),
   ipAddress: text("ip_address"),
@@ -80,3 +80,21 @@ export type VehicleLookup = typeof vehicleLookups.$inferSelect;
 
 export type InsertUserSearch = z.infer<typeof insertUserSearchSchema>;
 export type UserSearch = typeof userSearches.$inferSelect;
+
+// Contact schema for contact form submissions
+export const contacts = pgTable("contacts", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertContactSchema = createInsertSchema(contacts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertContact = z.infer<typeof insertContactSchema>;
+export type Contact = typeof contacts.$inferSelect;
