@@ -4,7 +4,6 @@ import { Server } from "http";
 import { IStorage } from "./storage";
 import { insertServiceRequestSchema, insertPriceMatchSchema, insertContactSchema, insertVehicleLookupSchema, insertUserSearchSchema } from "../shared/schema";
 import { logCustomerInquiry } from "./email";
-import { logAdminActivity } from "./adminTracking";
 
 export function registerRoutes(app: Express, storage: IStorage): Server {
 
@@ -76,7 +75,6 @@ Submitted: ${new Date().toLocaleString('en-GB')}`,
       // Log to customer inquiry system for admin dashboard
       await logCustomerInquiry(inquiry);
       
-      // Log service request for email notification to LA-Automotive@hotmail.com
       console.log(`[EMAIL NOTIFICATION] Service Request #${serviceRequest.id}
         To: LA-Automotive@hotmail.com
         Subject: New ${validatedData.issueCategory} Request from ${validatedData.fullName}
@@ -147,7 +145,6 @@ Submitted: ${new Date().toLocaleString('en-GB')}`
       // Log to customer inquiry system for admin dashboard
       await logCustomerInquiry(priceInquiry);
       
-      // Log price match request for email notification to LA-Automotive@hotmail.com
       console.log(`[EMAIL NOTIFICATION] Price Match Request #${priceMatch.id}
         To: LA-Automotive@hotmail.com
         Subject: New Price Match Request - ${validatedData.partName}
@@ -249,15 +246,8 @@ Submitted: ${new Date().toLocaleString('en-GB')}`
       const role = username.toLowerCase();
       
       if (adminCredentials[role] === password) {
-        // Log successful login
-        await logAdminActivity({
-          username: role,
-          role: role.charAt(0).toUpperCase() + role.slice(1),
-          action: 'LOGIN',
-          ipAddress: req.ip || req.connection.remoteAddress || 'Unknown',
-          userAgent: req.headers['user-agent'] || 'Unknown',
-          success: true
-        });
+        // Simple login logging without admin tracking dependency
+        console.log(`Admin login successful: ${role} at ${new Date().toISOString()}`);
         
         res.json({ 
           success: true, 
@@ -265,16 +255,7 @@ Submitted: ${new Date().toLocaleString('en-GB')}`
           role: role.charAt(0).toUpperCase() + role.slice(1)
         });
       } else {
-        // Log failed login attempt
-        await logAdminActivity({
-          username: username || 'Unknown',
-          role: role.charAt(0).toUpperCase() + role.slice(1),
-          action: 'LOGIN_FAILED',
-          ipAddress: req.ip || req.connection.remoteAddress || 'Unknown',
-          userAgent: req.headers['user-agent'] || 'Unknown',
-          success: false
-        });
-        
+        console.log(`Admin login failed: ${username} at ${new Date().toISOString()}`);
         res.status(401).json({ error: "Invalid credentials" });
       }
     } catch (error) {
@@ -287,16 +268,7 @@ Submitted: ${new Date().toLocaleString('en-GB')}`
   app.post("/api/admin/logout", async (req, res) => {
     try {
       const { username, role } = req.body;
-      
-      await logAdminActivity({
-        username: username || 'Unknown',
-        role: role || 'Unknown',
-        action: 'LOGOUT',
-        ipAddress: req.ip || req.connection.remoteAddress || 'Unknown',
-        userAgent: req.headers['user-agent'] || 'Unknown',
-        success: true
-      });
-      
+      console.log(`Admin logout: ${username} (${role}) at ${new Date().toISOString()}`);
       res.json({ success: true, message: "Logout successful" });
     } catch (error) {
       console.error("Admin logout error:", error);
@@ -373,15 +345,7 @@ Submitted: ${new Date().toLocaleString('en-GB')}`
       const roleKey = role.toLowerCase();
       
       if (securityQuestions[roleKey] && securityQuestions[roleKey].answer.toLowerCase() === securityAnswer.toLowerCase()) {
-        // Log successful password recovery
-        await logAdminActivity({
-          username: roleKey,
-          role: role,
-          action: 'PASSWORD_RECOVERY',
-          ipAddress: req.ip || req.connection.remoteAddress || 'Unknown',
-          userAgent: req.headers['user-agent'] || 'Unknown',
-          success: true
-        });
+        console.log(`Password recovery successful: ${roleKey} at ${new Date().toISOString()}`);
         
         res.json({ 
           success: true, 
@@ -389,16 +353,7 @@ Submitted: ${new Date().toLocaleString('en-GB')}`
           temporaryAccess: true
         });
       } else {
-        // Log failed password recovery
-        await logAdminActivity({
-          username: roleKey,
-          role: role,
-          action: 'PASSWORD_RECOVERY_FAILED',
-          ipAddress: req.ip || req.connection.remoteAddress || 'Unknown',
-          userAgent: req.headers['user-agent'] || 'Unknown',
-          success: false
-        });
-        
+        console.log(`Password recovery failed: ${roleKey} at ${new Date().toISOString()}`);
         res.status(401).json({ error: "Incorrect security answer" });
       }
     } catch (error) {
